@@ -10,11 +10,11 @@ interface ContactsProps {
 
 export const Contacts = ({ onNext, onBack }: ContactsProps) => {
   const contacts = [
-    { id: '1', name: 'Sarah Johnson' },
-    { id: '2', name: 'Michael Chen' },
-    { id: '3', name: 'Emily Rodriguez' },
-    { id: '4', name: 'David Kim' },
-    { id: '5', name: 'Jessica Thompson' },
+    { id: '1', name: 'Zafar' },
+    { id: '2', name: 'Yuina' },
+    { id: '3', name: 'Zimin' },
+    { id: '4', name: 'Fayez' },
+    { id: '5', name: 'James' },
   ];
 
   return (
@@ -26,7 +26,6 @@ export const Contacts = ({ onNext, onBack }: ContactsProps) => {
         
         <Text style={styles.heading}>Choose Contact</Text>
         
-        <ScrollView style={styles.content} showsVerticalScrollIndicator={false}>
           {contacts.map((contact) => (
             <Pressable 
               key={contact.id} 
@@ -41,7 +40,6 @@ export const Contacts = ({ onNext, onBack }: ContactsProps) => {
               <Text style={styles.contactName}>{contact.name}</Text>
             </Pressable>
           ))}
-        </ScrollView>
       </View>
     </SafeAreaView>
   );

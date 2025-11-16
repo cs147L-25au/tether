@@ -9,16 +9,16 @@ import {
   ActivityIndicator,
   KeyboardAvoidingView,
   Platform,
-  ScrollView
 } from 'react-native';
 import styles from '../styles/styles';
 import { palette } from '../styles/palette';
+import useSession from '../utils/useSession';
 
-// HARDCODED TEST CREDENTIALS
-const TEST_PHONE = '1234567890';
+const TEST_PHONE = '1234567890';            // test credentials
 const TEST_PASSWORD = 'test';
 
 export default function Title () {
+  const { signIn } = useSession();
   const [areaCode, setAreaCode] = useState('+1');
   const [phoneNumber, setPhoneNumber] = useState('');
   const [password, setPassword] = useState('');
@@ -32,12 +32,11 @@ export default function Title () {
 
     setLoading(true);
     
-    setTimeout(() => {
+    setTimeout(async () => {
       // Check against hardcoded credentials
       if (phoneNumber === TEST_PHONE && password === TEST_PASSWORD) {
-        Alert.alert('Success', 'Login successful!');
-        // TODO: Set session/navigation logic here
-        // For now, just show success
+        //Alert.alert('Success', 'Login successful!');
+        await signIn(areaCode + phoneNumber);
       } else {
         Alert.alert('Error', 'Invalid phone number or password', [
           { text: 'OK' }
@@ -62,7 +61,9 @@ export default function Title () {
             <Text style={styles.titleSubtitleItalic}>For Difficult Conversations</Text>
           </View>
 
-          <View style={styles.imagePlaceholder}> {/* update */}
+          <View style={styles.imagePlaceholder}>
+            <Text>Change this later :p</Text>
+            <Text>Test credentials are: phone# 1234567890, pw test</Text>
           </View>
 
           <View style={styles.loginInputContainer}>
