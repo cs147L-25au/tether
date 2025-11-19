@@ -246,7 +246,7 @@ const globalStyles = StyleSheet.create({
   empty: {
     fontFamily: "../assets/fonts/AbhayaLibre-Regular.ttf",
     marginBottom: 20,
-    marginLeft: 10,
+    marginLeft: 20,
   },
   search: {
     flexDirection: "row",

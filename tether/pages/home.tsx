@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, Pressable, SafeAreaView, TouchableOpacity, TextInput, ScrollView, Image, ImageBackground } from 'react-native';
 import styles from '../styles/styles';
-import { ChevronDown, Search } from 'lucide-react-native';
+import { ChevronDown, ChevronRight, Search } from 'lucide-react-native';
 import theme from '../styles/theme';
 
 interface HomeProps {
@@ -13,6 +13,10 @@ interface HomeProps {
 export const Home = ({ onBack, onNext, onSearch }: HomeProps) => {
   
   const activePortals: any[] = [];
+
+
+  const [showActivePortals, setShowActivePortals] = useState(true);
+  const [showRequestPortals, setShowRequestPortals] = useState(true);
 
   const requestPortals = [
     { id: '1', name: 'Yuina' },
@@ -50,39 +54,62 @@ export const Home = ({ onBack, onNext, onSearch }: HomeProps) => {
           />
         </View>
         <ScrollView>
-          <View style={styles.dropdown}><ChevronDown color={theme.button}/><Text style={styles.subheading}>Active Portals</Text></View>
-          {activePortals.length === 0 ? (
-            <View style={styles.empty}>
-              <Text style={styles.text}>No active portals</Text>
-            </View>
-          ) : (
-            activePortals.map((contact) => (
-              <TouchableOpacity 
-                key={contact.id} 
-                style={styles.contactCard} 
-                onPress={onNext}
-              >
-                <View style={styles.avatar}>
-                  <Image source={require('../assets/frogs/frog.png')}/>
-                </View>
-                <Text style={styles.text}>{contact.name}</Text>
-              </TouchableOpacity>
-            ))
-          )}
-          <View style={styles.dropdown}><ChevronDown color={theme.button}/><Text style={styles.subheading}>NewPortal Requests</Text></View>
-          {requestPortals.map((invite) => (
-            <TouchableOpacity 
-              key={invite.id} 
-              style={styles.contactCard} 
-              onPress={onNext}
-            >
-              <View style={styles.avatar}>
-                <Image source = {require('../assets/frogs/frog.png')}/>
-              </View>
-              <Text style={styles.text}>{invite.name}</Text>
+          <TouchableOpacity style={styles.dropdown} onPress={() => setShowActivePortals(!showActivePortals)}>
+              {showActivePortals ? 
+                <ChevronDown color={theme.button}/> : 
+                <ChevronRight color={theme.button}/>
+              }
+              <Text style={styles.subheading}>Active Portals</Text>
             </TouchableOpacity>
+            {showActivePortals && (
+              activePortals.length === 0 ? (
+                <View style={styles.empty}>
+                  <Text style={styles.text}>No active portals</Text>
+                </View>
+              ) : (
+                activePortals.map((contact) => (
+                  <TouchableOpacity 
+                    key={contact.id} 
+                    style={styles.contactCard} 
+                    onPress={onNext}
+                  >
+                    <View style={styles.avatar}>
+                      <Image source={require('../assets/frogs/frog.png')}/>
+                    </View>
+                    <Text style={styles.text}>{contact.name}</Text>
+                  </TouchableOpacity>
+                ))
+              )
+            )}
+          <TouchableOpacity style={styles.dropdown} onPress={() => setShowRequestPortals(!showRequestPortals)}>
+            {showActivePortals ? 
+                <ChevronDown color={theme.button}/> : 
+                <ChevronRight color={theme.button}/>
+              }
+            <Text style={styles.subheading}>New Portal Requests</Text>
+          </TouchableOpacity>
+          {showRequestPortals && (
+              requestPortals.length === 0 ? (
+                <View style={styles.empty}>
+                  <Text style={styles.text}>No new portal requests</Text>
+                </View>
+              ) : (
+                requestPortals.map((invite) => (
+                  <TouchableOpacity 
+                    key={invite.id} 
+                    style={styles.contactCard} 
+                    onPress={onNext}
+                  >
+                    <View style={styles.avatar}>
+                      <Image source = {require('../assets/frogs/frog.png')}/>
+                    </View>
+                    <Text style={styles.text}>{invite.name}</Text>
+                  </TouchableOpacity>
+                
+                ))
+              )
+            )}
           
-          ))}
         </ScrollView>
       </View>
     </SafeAreaView>

@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { use } from 'react';
 import { useState } from "react";
 import { View, Text, SafeAreaView, ScrollView, TouchableOpacity, TextInput, Image, ImageBackground } from 'react-native';
 import styles from '../styles/styles';
-import { Search, ChevronDown } from 'lucide-react-native';
+import { Search, ChevronDown, ChevronRight } from 'lucide-react-native';
 import theme from '../styles/theme';
 
 interface ContactsProps {
@@ -24,6 +24,9 @@ export const Contacts = ({ onNext, onBack, onSearch }: ContactsProps) => {
     { id: '2', name: 'Charlotte' },
   ];
   const [input, setInput] = useState<string>("");
+  const [showFriends, setShowFriends] = useState(true);
+  const [showNewInvites, setShowNewInvites] = useState(true);
+
 
   const handleSearchSubmit = () => {
         if (input.trim()) {
@@ -56,34 +59,63 @@ export const Contacts = ({ onNext, onBack, onSearch }: ContactsProps) => {
             />
           </View>
           <ScrollView>
-            <View style={styles.dropdown}><ChevronDown color={theme.button}/><Text style={styles.subheading}>Friends on Tether</Text></View>
-            {contacts.map((contact) => (
-              <TouchableOpacity 
-                key={contact.id} 
-                style={styles.contactCard}
-                onPress={() => onNext(contact)}
-              >
-                <View style={styles.avatar}>
-                  <Image source = {require('../assets/frogs/frog.png')}/>
+            <TouchableOpacity style={styles.dropdown} onPress={() => setShowFriends(!showFriends)}>
+            {showFriends ? 
+                <ChevronDown color={theme.button}/> : 
+                <ChevronRight color={theme.button}/>
+              }
+            <Text style={styles.subheading}>Friends on Tether</Text>
+          </TouchableOpacity>
+          {showFriends && (
+              contacts.length === 0 ? (
+                <View style={styles.empty}>
+                  <Text style={styles.text}>No Friends to show</Text>
                 </View>
-                <Text style={styles.text}>{contact.name}</Text>
-              </TouchableOpacity>
+              ) : (
+                contacts.map((friend) => (
+                  <TouchableOpacity 
+                    key={friend.id} 
+                    style={styles.contactCard} 
+                    onPress={() => onNext(friend)} 
+                  >
+                    <View style={styles.avatar}>
+                      <Image source = {require('../assets/frogs/frog.png')}/>
+                    </View>
+                    <Text style={styles.text}>{friend.name}</Text>
+                  </TouchableOpacity>
+                
+                ))
+              )
+            )}
             
-            ))}
-            <View style={styles.dropdown}><ChevronDown color={theme.button}/><Text style={styles.subheading}>Invite to Tether</Text></View>
-            {invites.map((invite) => (
-              <TouchableOpacity 
-                key={invite.id} 
-                style={styles.contactCard} 
-                onPress={() => onNext(invite)}
-              >
-                <View style={styles.avatar}>
-                  <Image source = {require('../assets/frogs/frog.png')}/>
+          <TouchableOpacity style={styles.dropdown} onPress={() => setShowNewInvites(!showNewInvites)}>
+            {showNewInvites ? 
+                <ChevronDown color={theme.button}/> : 
+                <ChevronRight color={theme.button}/>
+              }
+            <Text style={styles.subheading}>Invite to Tether</Text>
+          </TouchableOpacity>
+          {showNewInvites && (
+              invites.length === 0 ? (
+                <View style={styles.empty}>
+                  <Text style={styles.text}>No new contacts to invite</Text>
                 </View>
-                <Text style={styles.text}>{invite.name}</Text>
-              </TouchableOpacity>
-            
-            ))}
+              ) : (
+                invites.map((invite) => (
+                  <TouchableOpacity 
+                    key={invite.id} 
+                    style={styles.contactCard} 
+                    onPress={() => onNext(invite)} //change?
+                  >
+                    <View style={styles.avatar}>
+                      <Image source = {require('../assets/frogs/frog.png')}/>
+                    </View>
+                    <Text style={styles.text}>{invite.name}</Text>
+                  </TouchableOpacity>
+                
+                ))
+              )
+            )}
           </ScrollView>
         </View>
         </SafeAreaView>
