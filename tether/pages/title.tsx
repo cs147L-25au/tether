@@ -21,7 +21,11 @@ import theme from '../styles/theme';
 const TEST_PHONE = '1234567890';
 const TEST_PASSWORD = 'test';
 
-export default function Title() {
+interface TitleProps {
+  onSignup?: () => void;
+}
+
+export default function Title({ onSignup }: TitleProps = {}) {
   const { signIn } = useSession();
   const [areaCode, setAreaCode] = useState('+1');
   const [phoneNumber, setPhoneNumber] = useState('');
@@ -118,7 +122,7 @@ export default function Title() {
             </TouchableOpacity>
 
             <View style={styles.signUpLinkContainer}>
-              <TouchableOpacity>
+              <TouchableOpacity onPress={onSignup}>
                 <Text style={styles.signUpLink}>New user? Sign up</Text>
               </TouchableOpacity>
             </View>

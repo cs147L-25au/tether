@@ -1,0 +1,192 @@
+import React, { useState } from 'react';
+import { 
+  View, 
+  Text, 
+  TextInput, 
+  Alert,
+  ActivityIndicator,
+  KeyboardAvoidingView,
+  Image,
+  Platform,
+  TouchableOpacity,
+  ImageBackground,
+  SafeAreaView,
+  Modal
+} from 'react-native';
+import styles from '../styles/styles';
+import { UserPlus, ChevronLeft, X } from 'lucide-react-native';
+import { palette } from '../styles/palette';
+import theme from '../styles/theme';
+
+interface SignupProps {
+  onBack: () => void;
+}
+
+export default function Signup({ onBack }: SignupProps) {
+  const [areaCode, setAreaCode] = useState('+1');
+  const [phoneNumber, setPhoneNumber] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
+
+  const handleSignup = async () => {
+    if (!phoneNumber || !password || !confirmPassword) {
+      Alert.alert('Error', 'Please fill in all fields');
+      return;
+    }
+
+    if (password !== confirmPassword) {
+      Alert.alert('Error', 'Passwords do not match');
+      return;
+    }
+
+    if (password.length < 6) {
+      Alert.alert('Error', 'Password must be at least 6 characters');
+      return;
+    }
+
+    setLoading(true);
+    
+    // Simulate signup process
+    setTimeout(() => {
+      setLoading(false);
+      setShowSuccessModal(true);
+    }, 1000);
+  };
+
+  const handleCloseModal = () => {
+    setShowSuccessModal(false);
+    onBack();
+  };
+
+  return (
+    <ImageBackground 
+      source={require("../assets/backgrounds/light_ombre.png")}
+      style={{ flex: 1, width: '100%', height: '100%' }}
+      resizeMode='cover'
+    >
+      <SafeAreaView style={{ flex: 1 }}>
+        <KeyboardAvoidingView
+          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+          style={{ flex: 1 }}
+        >
+          {/* Back Button */}
+          <View style={[styles.heading, { marginTop: 10 }]}>
+            <TouchableOpacity onPress={onBack} style={styles.backButton}>
+              <ChevronLeft size={40} color={palette.slate} />
+            </TouchableOpacity>
+          </View>
+
+          <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+            <View style={styles.loginLogoContainer}>
+              <Text style={styles.titleLarge}>Join Tether</Text>
+              <Text style={styles.titleSubtitleItalic}>Sign up to Create Your Account</Text>
+            </View>
+
+            <View style={styles.imagePlaceholder}>
+              <Image 
+                source={require("../assets/frogs/cute_frogx1.png")} 
+                style={{width: 220, height: 100}} 
+              />
+            </View>
+
+            <View style={styles.loginInputContainer}>
+              <Text style={styles.inputLabel}>Phone Number</Text>
+              <View style={styles.loginInputWrapper}>
+                <View style={styles.areaCodeContainer}>
+                  <Text style={styles.areaCodeText}>{areaCode} -</Text>
+                </View>
+                <TextInput
+                  placeholder=""
+                  placeholderTextColor={palette.mutedBrown}
+                  style={styles.loginInput}
+                  keyboardType="phone-pad"
+                  value={phoneNumber}
+                  onChangeText={setPhoneNumber}
+                  editable={!loading}
+                />
+              </View>
+            </View>
+
+            <View style={styles.loginInputContainer}>
+              <Text style={styles.inputLabel}>Password</Text>
+              <View style={styles.loginInputWrapper}>
+                <TextInput
+                  placeholder="..."
+                  placeholderTextColor={palette.mutedBrown}
+                  secureTextEntry
+                  autoCapitalize="none"
+                  style={styles.loginInputPassword}
+                  value={password}
+                  onChangeText={setPassword}
+                  editable={!loading}
+                />
+              </View>
+            </View>
+
+            <View style={styles.loginInputContainer}>
+              <Text style={styles.inputLabel}>Confirm Password</Text>
+              <View style={styles.loginInputWrapper}>
+                <TextInput
+                  placeholder="..."
+                  placeholderTextColor={palette.mutedBrown}
+                  secureTextEntry
+                  autoCapitalize="none"
+                  style={styles.loginInputPassword}
+                  value={confirmPassword}
+                  onChangeText={setConfirmPassword}
+                  editable={!loading}
+                />
+              </View>
+            </View>
+
+            <TouchableOpacity
+              style={styles.loginButton}
+              onPress={handleSignup}
+              disabled={loading}
+            >
+              {loading ? (
+                <ActivityIndicator color={theme.buttonicon} />
+              ) : (
+                <>
+                  <UserPlus size={20} color={theme.buttonicon} />
+                  <Text style={styles.loginButtonText}>Sign Up</Text>
+                </>
+              )}
+            </TouchableOpacity>
+          </View>
+        </KeyboardAvoidingView>
+
+        {/* Success Modal */}
+        <Modal
+          animationType="fade"
+          transparent={true}
+          visible={showSuccessModal}
+          onRequestClose={handleCloseModal}
+        >
+          <View style={styles.modalOverlay}>
+            <View style={styles.successModal}>
+              <TouchableOpacity 
+                onPress={handleCloseModal} 
+                style={styles.modalCloseButton}
+              >
+                <X size={24} color={palette.darkBrown} />
+              </TouchableOpacity>
+              <View style={styles.popup}>
+                <Text style={styles.successText}>Account Created</Text>
+                <Text style={styles.titleSubtitleItalic}>
+                  Welcome to Tether!
+                </Text>
+                <Image 
+                  source={require("../assets/frogs/cute_frogsx2.png")} 
+                  style={{ height: 200, width: 300, transform: [{ translateY: 50 }] }}
+                />
+              </View>
+            </View>
+          </View>
+        </Modal>
+      </SafeAreaView>
+    </ImageBackground>
+  );
+}
