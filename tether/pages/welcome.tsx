@@ -29,14 +29,12 @@ export default function Welcome({ onContinue }: WelcomeProps) {
         source={bigLeftOutline} 
         style={styles.bigleftoutline}
       />
-      
-      {/* Small right profile */}
+    
       <Image 
         source={rightProfile} 
         style={styles.rightProfile}
       />
       
-      {/* Transparent rectangles */}
       <Image 
         source={topRectangle} 
         style={styles.topRectangle}
@@ -49,19 +47,13 @@ export default function Welcome({ onContinue }: WelcomeProps) {
         source={rightRectangle} 
         style={styles.rightRectangle}
       />
-      <Image 
-        source={smallRectangle} 
-        style={styles.smallRectangle}
-      />
       
-      {/* Text: "safe space for difficult conversations" */}
       <View style={styles.taglineContainer}>
         <Text style={styles.taglineText}>safe space</Text>
         <Text style={styles.taglineText}>for difficult</Text>
         <Text style={styles.taglineText}>conversations</Text>
       </View>
       
-      {/* Get Started Button */}
       <Pressable
         style={styles.getStartedButton}
         onPress={onContinue}
@@ -73,7 +65,6 @@ export default function Welcome({ onContinue }: WelcomeProps) {
         />
       </Pressable>
       
-      {/* Tether title at bottom left */}
       <Text style={styles.tetherTitle}>Tether</Text>
     </View>
   );
@@ -124,10 +115,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     zIndex: 2,
+    gap: 5,
   },
   taglineText: {
-    fontSize: 32,
-    fontFamily: "../assets/fonts/AbhayaLibre-Regular.ttf",
+    fontSize: 26,
+    fontFamily: 'Avenir',
     color: palette.mediumBrown,
     lineHeight: 28,
     textAlign: 'center',
@@ -153,52 +145,46 @@ const styles = StyleSheet.create({
   leftRectangle: {
     position: 'absolute',
     left: 0,
-    top: SCREEN_HEIGHT * 0.7,
-    height: SCREEN_HEIGHT * 0.5,
-    width: SCREEN_WIDTH * 0.4,
-    resizeMode: 'contain',
+    bottom: 0,
+    height: SCREEN_HEIGHT * 0.3,
+    width: SCREEN_WIDTH * 0.5,
+    resizeMode: 'cover',
     zIndex: 1,
   },
   rightRectangle: {
     position: 'absolute',
-    right: 0,
-    bottom: SCREEN_HEIGHT * 0.2,
+    left: SCREEN_WIDTH * 0.5,
+    bottom: 0,
     height: SCREEN_HEIGHT * 0.3,
-    width: SCREEN_WIDTH * 0.3,
-    resizeMode: 'contain',
-    zIndex: 1,
-  },
-  smallRectangle: {
-    position: 'absolute',
-    top: SCREEN_HEIGHT * 0.65,
-    right: 0,
-    height: SCREEN_HEIGHT * 0.15,
-    width: SCREEN_WIDTH * 0.25,
-    resizeMode: 'contain',
+    width: SCREEN_WIDTH * 0.5,
+    resizeMode: 'cover',
     zIndex: 1,
   },
   getStartedButton: {
     position: 'absolute',
     bottom: SCREEN_HEIGHT * 0.25,
-    left: SCREEN_WIDTH * 0.1,
+    left: SCREEN_WIDTH * -0.1,
+    width: SCREEN_WIDTH * 0.8,
+    height: SCREEN_HEIGHT * 0.07,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: palette.lightBeige,
+    backgroundColor: "#E4FBD4",
     paddingVertical: 14,
     paddingHorizontal: 24,
+    paddingLeft: 120,
     borderRadius: 30,
     zIndex: 2,
-    gap: 12,
+    gap: 20,
   },
   getStartedText: {
-    fontSize: 18,
+    fontSize: 22,
     fontFamily: 'Avenir',
     color: palette.mediumBrown,
   },
   circleButtonIcon: {
-    width: 24,
-    height: 24,
+    width: 35,
+    height: 35,
     resizeMode: 'contain',
   },
 });

@@ -3,9 +3,9 @@ import { View, StatusBar } from 'react-native';
 import { TetherProvider } from './context/TetherContext';
 import { Contacts } from './pages/contacts';
 import { Message } from './pages/message';
-import { Portal } from './pages/portal';
 import { Home } from './pages/home';
 import { Profile } from './pages/profile';
+import Welcome from './pages/welcome';
 import Footer from './pages/components/Footer';
 import styles from './styles/styles';
 import AuthGate from './pages/components/AuthGate';
@@ -16,7 +16,6 @@ function AppContent() {
 
   //　
   const [showMessage, setShowMessage] = useState(false);
-  const [showPortal, setShowPortal] = useState(false);
   const [selectedContact, setSelectedContact] = useState<{ id: string; name: string } | null>(null);
 
   // supabase stuff : for later
@@ -29,17 +28,10 @@ function AppContent() {
 
   const handleContactSelect = (contact: { id: string; name: string }, isInvite?: boolean) => {
     setSelectedContact(contact);
-    if (isInvite) {
-      setShowMessage(true);
-      setShowPortal(false);
-    } else {
-      setShowPortal(true);
-      setShowMessage(false);
-    }
+    setShowMessage(true);
   };
 
   const handleBackToContacts = () => {
-    setShowPortal(false);
     setShowMessage(false);
     setSelectedContact(null);
   };
@@ -54,17 +46,11 @@ function AppContent() {
     <View style={styles.container}>
       <StatusBar barStyle="dark-content" />
       <View style={{ flex: 9 }}>
-        {activeTab === 'friends' && !showPortal && !showMessage && (
+        {activeTab === 'friends' && !showMessage && (
           <Contacts 
             onNext={handleContactSelect} 
             onBack={() => {}}
             onSearch={(query) => console.log(query)}
-          />
-        )}
-        {activeTab === 'friends' && showPortal && selectedContact && (
-          <Portal 
-            contact={selectedContact}
-            onBack={handleBackToContacts}
           />
         )}
         {activeTab === 'friends' && showMessage && selectedContact && (
@@ -95,6 +81,25 @@ function AppContent() {
 }
 
 export default function App() {
+  const [showWelcome, setShowWelcome] = useState(true);
+
+  const handleWelcomeContinue = () => {
+    setShowWelcome(false);
+  };
+
+  // Show welcome page first, before login
+  if (showWelcome) {
+    return (
+      <TetherProvider>
+        <View style={styles.container}>
+          <StatusBar barStyle="dark-content" />
+          <Welcome onContinue={handleWelcomeContinue} />
+        </View>
+      </TetherProvider>
+    );
+  }
+
+  // After welcome page, show login/auth flow
   return (
     <TetherProvider>
       <AuthGate>
