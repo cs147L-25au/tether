@@ -6,11 +6,20 @@ import {
   ImageBackground, 
   TouchableOpacity,
   ScrollView,
-  Image
+  StyleSheet,
+  Image,
+  Dimensions
 } from 'react-native';
 import styles from '../styles/styles';
 import { palette } from '../styles/palette';
 import { ChevronLeft } from 'lucide-react-native';
+
+const Back = require('../assets/portal/Back.png');
+const strokemap = require('../assets/portal/strokemap.png');
+const spiral = require('../assets/portal/spiral.png');
+const together = require('../assets/portal/together.png');
+
+const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get('window');
 
 interface PortalProps {
   contact: { id: string; name: string };
@@ -24,13 +33,13 @@ export const Portal = ({ contact, onBack }: PortalProps) => {
       style={{ flex: 1, width: '100%', height: '100%' }}
       resizeMode='cover'
     >
-      <SafeAreaView style={{ flex: 1 }}>
+      <SafeAreaView style={{ flex: 1, overflow: 'visible' }}>
         <View style={styles.screen}>
           <View style={[styles.heading, {marginBottom: 0}]}>
             <TouchableOpacity onPress={onBack} style={styles.backButton}>
               <ChevronLeft size={40} color={palette.slate} />
             </TouchableOpacity>
-            <Text style={styles.headingtext}>Portal with {contact.name}</Text>
+            {/* <Text style={styles.headingtext}>Portal with {contact.name}</Text> */}
           </View>
 
           <ScrollView 
@@ -49,19 +58,40 @@ export const Portal = ({ contact, onBack }: PortalProps) => {
                 <Text style={styles.userGraphicLabel}>{contact.name}</Text>
               </View>
             </View>
-
-            <View style={{ marginTop: 30, padding: 20 }}>
-              <Text style={[styles.text, { fontSize: 18, marginBottom: 10 }]}>
-                Portal Status: Active
-              </Text>
-              <Text style={[styles.text, { fontSize: 16, color: palette.mutedBrown }]}>
-                This is your safe space for difficult conversations with {contact.name}.
-              </Text>
-            </View>
+           
           </ScrollView>
         </View>
+        <Image 
+            source={strokemap} 
+            style={newstyles.strokemap} 
+          />
       </SafeAreaView>
+      <Image 
+          source={together} 
+          style={newstyles.together} 
+        />
     </ImageBackground>
   );
 };
 
+const newstyles = StyleSheet.create({
+  strokemap: {
+    position: 'absolute',
+    width: SCREEN_WIDTH * 0.6,
+    height: SCREEN_HEIGHT * 0.5,
+    resizeMode: 'contain',
+    alignSelf: 'center',
+    top: SCREEN_HEIGHT * 0.2,
+    zIndex: 1,
+  },
+  together: {
+    position: 'absolute',
+    width: SCREEN_WIDTH,
+    height: SCREEN_HEIGHT * 1.2, // Make it taller so we can show just the top
+    resizeMode: 'contain',
+    bottom: -SCREEN_HEIGHT * 0.9, // Position so only top ~25% is visible
+    left: 0,
+    right: 0,
+    zIndex: 2,
+  },
+});
