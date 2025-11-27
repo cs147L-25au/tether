@@ -30,9 +30,12 @@ const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get('window');
 interface PortalProps {
   contact: { id: string; name: string };
   onBack: () => void;
+  onNavigateToExpectations: () => void;
+  onNavigateToReflect: () => void;
+  onNavigateToAcceptInvite: () => void;
 }
 
-export const Portal = ({ contact, onBack }: PortalProps) => {
+export const Portal = ({ contact, onBack, onNavigateToExpectations, onNavigateToReflect, onNavigateToAcceptInvite }: PortalProps) => {
   return (
     <ImageBackground 
       source={require("../assets/backgrounds/light_ombre.png")}
@@ -66,10 +69,15 @@ export const Portal = ({ contact, onBack }: PortalProps) => {
           <Text style={newstyles.userGraphicLabel}>{contact.name}</Text>
         </View>
       </View>
-      <Image 
-            source={spiral} 
-            style={newstyles.spiral} 
-      />
+      <TouchableOpacity 
+        onPress={onNavigateToAcceptInvite}
+        style={newstyles.spiralTouchable}
+      >
+        <Image 
+              source={spiral} 
+              style={newstyles.spiral} 
+        />
+      </TouchableOpacity>
       {/* <View style={newstyles.expectations_text_container}>
         <Image 
           source={expectations_text} 
@@ -80,14 +88,26 @@ export const Portal = ({ contact, onBack }: PortalProps) => {
           style={newstyles.lock} 
         />
       </View> */}
-      <Image 
-            source={expectations} 
-            style={newstyles.expectations} 
-      />
-      <Image 
-            source={reflect} 
-            style={newstyles.reflect} 
-      />
+      <TouchableOpacity 
+        onPress={onNavigateToExpectations}
+        style={newstyles.expectationsTouchable}
+      >
+        <Image 
+              source={expectations} 
+              style={newstyles.expectations} 
+        />
+      </TouchableOpacity>
+
+      <TouchableOpacity 
+        onPress={onNavigateToReflect}
+        style={newstyles.reflectTouchable}
+      >  
+        <Image 
+              source={reflect} 
+              style={newstyles.reflect} 
+        />
+      </TouchableOpacity>
+
       <View style={newstyles.elementcontainer}>
          <Image 
             source={strokemap} 
@@ -131,14 +151,18 @@ const newstyles = StyleSheet.create({
     textAlign: 'center',
     flex: 1,
   },
-  spiral: {
+  spiralTouchable: {
     position: 'absolute',
     width: SCREEN_WIDTH * 0.4,
     height: SCREEN_HEIGHT * 0.4,
-    resizeMode: 'contain',
     bottom: SCREEN_HEIGHT * 0.45,
     left: SCREEN_WIDTH * 0.1,
     zIndex: 10,
+  },
+  spiral: {
+    width: '100%',
+    height: '100%',
+    resizeMode: 'contain',
   },
   // expectations_text_container: {
   //   // position: 'absolute',
@@ -168,23 +192,31 @@ const newstyles = StyleSheet.create({
   //   // zIndex: 1,
   // },
 
-  expectations: {
+  expectationsTouchable: {
     position: 'absolute',
     width: SCREEN_WIDTH * 0.35,
     height: SCREEN_HEIGHT * 0.35,
-    resizeMode: 'contain',
     bottom: SCREEN_HEIGHT * 0.35,
     left: SCREEN_WIDTH * 0.6,
     zIndex: 1,
   },
-  reflect: {
+  expectations: {
+    width: '100%',
+    height: '100%',
+    resizeMode: 'contain',
+  },
+  reflectTouchable: {
     position: 'absolute',
     width: SCREEN_WIDTH * 0.4,
     height: SCREEN_HEIGHT * 0.4,
-    resizeMode: 'contain',
     bottom: SCREEN_HEIGHT * 0.15,
     left: SCREEN_WIDTH * 0.1,
     zIndex: 1,
+  },
+  reflect: {
+    width: '100%',
+    height: '100%',
+    resizeMode: 'contain',
   },
   elementcontainer: {
     flex: 1,
