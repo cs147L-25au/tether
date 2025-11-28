@@ -44,7 +44,7 @@ export const Home = ({ onBack, onNext, onSearch }: HomeProps) => {
         >
     <SafeAreaView style={{flex: 1}}>
       
-      <View style={styles.screen}>
+      <View style={[styles.screen, { overflow: 'visible' }]}>
         <View style={styles.heading}>
           <Text style={localStyles.tetherTitle}>Tether</Text>
         </View>
@@ -118,22 +118,18 @@ export const Home = ({ onBack, onNext, onSearch }: HomeProps) => {
             )}
           
         </ScrollView>
-        <View style={{
-            paddingHorizontal: 10,
-            paddingBottom: 10,
-            backgroundColor: 'transparent',
-          }}>
+        <View style={localStyles.bottomSection}>
+            <Image 
+              source={require("../assets/other/portal.png")} 
+              style={localStyles.portal}
+              resizeMode="contain"
+            />
             <TouchableOpacity 
-              style={[styles.loginInputWrapper, { 
-                justifyContent: 'center', 
-                paddingVertical: 14,
-                flexDirection: 'row',
-                alignItems: 'center',
-              }]}
+              style={localStyles.addPortalButton}
               onPress={handleAddPortal}
             >
-              <Plus size={24} color={theme.button} />
-              <Text style={[styles.text, { fontSize: 18, marginLeft: 8 }]}>Start a new portal</Text>
+              <Plus size={20} color={palette.cream} />
+              <Text style={localStyles.addPortalButtonText}>Start a new portal</Text>
             </TouchableOpacity>
         </View>
       </View>
@@ -147,8 +143,45 @@ const localStyles = StyleSheet.create({
     fontSize: 50,
     fontWeight: '400',
     textAlign: 'center',
-    fontFamily: 'AbhayaLibre',
+    fontFamily: 'AbhayaLibre-Regular',
     color: palette.slate,
     marginBottom: 8,
+  },
+
+  bottomSection: {
+    paddingHorizontal: 10,
+    paddingBottom: 10,
+    backgroundColor: 'transparent',
+    overflow: 'visible',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  portal: {
+    width: 200,
+    height: 200,
+    alignSelf: 'center',
+    marginBottom: 50,
+    resizeMode: 'contain',
+  },
+  addPortalButton: {
+    backgroundColor: palette.slate,
+    padding: 14,
+    borderRadius: 25,
+    alignItems: 'center',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    gap: 8,
+    shadowColor: palette.shadow,
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.2,
+    shadowRadius: 8,
+    elevation: 4,
+    width: '90%',
+  },
+  addPortalButtonText: {
+    color: palette.cream,
+    fontSize: 16,
+    fontWeight: '700',
+    fontFamily: 'Avenir',
   },
 });

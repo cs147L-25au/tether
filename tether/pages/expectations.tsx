@@ -80,7 +80,7 @@ const localStyles = StyleSheet.create({
 
   continueButton: {
     position: 'absolute',
-    top: SCREEN_HEIGHT * 0.05,
+    bottom: SCREEN_HEIGHT * 0.05,
     right: SCREEN_WIDTH * 0.1,
     backgroundColor: palette.lightBeige,
     paddingVertical: 14,
@@ -90,6 +90,11 @@ const localStyles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     zIndex: 10,
+    shadowColor: palette.shadow,
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.2,
+    shadowRadius: 8,
+    elevation: 4,
   },
   continueButtonText: {
     fontSize: 18,

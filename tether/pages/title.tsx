@@ -68,16 +68,18 @@ export default function Title({ onSignup, onLoginSuccess }: TitleProps = {}) {
           behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
           style={{ flex: 1, justifyContent: "center", alignItems: "center"  }}
         >
+
+            <View style={styles.imagePlaceholder}>
+              <Image source={require("../assets/other/title.png")} style={localStyles.titleimage}></Image>
+            </View>
+
+            
             <View style={styles.loginLogoContainer}>
-              <Text style={styles.titleLarge}>Tether</Text>
               <Text style={localStyles.subtitleText}>A Safe Space</Text>
               <Text style={localStyles.subtitleText}>For Difficult Conversations</Text>
             </View>
 
-            <View style={styles.imagePlaceholder}>
-              <Image source={require("../assets/other/hands.png")} style={styles.image}></Image>
-              <Text style={localStyles.testCredentialsText}>Test credentials are: phone# 1234567890, pw test</Text>
-            </View>
+            <Text style={localStyles.testCredentialsText}>Test credentials are: phone# 1234567890, pw test</Text>
 
             <View style={styles.loginInputContainer}>
               <View style={styles.loginInputWrapper}>
@@ -113,6 +115,8 @@ export default function Title({ onSignup, onLoginSuccess }: TitleProps = {}) {
               </View>
             </View>
 
+            {/* <Image source={require("../assets/other/portal.png")} style={localStyles.portal}></Image> */}
+
             <TouchableOpacity
               style={styles.loginButton}
               onPress={handleLogin}
@@ -141,7 +145,7 @@ export default function Title({ onSignup, onLoginSuccess }: TitleProps = {}) {
 
 const localStyles = StyleSheet.create({
   subtitleText: {
-    fontSize: 22,
+    fontSize: 20,
     fontFamily: 'Avenir',
     textAlign: 'center',
     color: palette.lightBrown,
@@ -156,4 +160,14 @@ const localStyles = StyleSheet.create({
     lineHeight: 20,
     marginTop: 8,
   },
+  titleimage: {
+    width: 400,
+    height: 400,
+  },
+  // portal: {
+  //   width: 200,
+  //   height: 200,
+  //   alignSelf: 'center',
+  //   marginTop: 24,
+  // },
 });
