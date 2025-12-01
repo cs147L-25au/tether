@@ -18,6 +18,7 @@ const Back = require('../assets/portal/Back.png');
 const strokemap = require('../assets/portal/strokemap.png');
 const spiral = require('../assets/portal/everything1.png');
 const together = require('../assets/portal/together.png');
+const expectationsnum= require('../assets/portal/expectation#image.png');
 const expectations = require('../assets/portal/expectations.png');
 const reflect = require('../assets/portal/reflect.png');
 const expectations_text = require('../assets/portal/expectation_word.png');
@@ -94,7 +95,7 @@ export const Portal = ({ contact, onBack, onNavigateToExpectations, onNavigateTo
         style={newstyles.expectationsTouchable}
       >
         <Image 
-              source={expectations} 
+              source={expectationsnum} 
               style={newstyles.expectations} 
         />
       </TouchableOpacity>
@@ -195,9 +196,9 @@ const newstyles = StyleSheet.create({
 
   expectationsTouchable: {
     position: 'absolute',
-    width: SCREEN_WIDTH * 0.35,
-    height: SCREEN_HEIGHT * 0.35,
-    bottom: SCREEN_HEIGHT * 0.35,
+    width: SCREEN_WIDTH * 0.4,
+    height: SCREEN_HEIGHT * 0.4,
+    bottom: SCREEN_HEIGHT * 0.32,
     left: SCREEN_WIDTH * 0.6,
     zIndex: 1,
   },
