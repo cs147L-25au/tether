@@ -152,7 +152,6 @@ export const Calling = ({ contact, onBack, onCallConnected }: CallingProps) => {
         <Text style={convoStyles.statusText}>Calling...</Text>
 
         <View style={convoStyles.callingAvatarContainer}>
-          {/* Animated rings */}
           <Animated.View 
             style={[
               convoStyles.callingRing,
@@ -195,13 +194,13 @@ export const Calling = ({ contact, onBack, onCallConnected }: CallingProps) => {
         <Text style={convoStyles.callingNameText}>{contact.name}</Text>
         <Text style={convoStyles.callingStatusText}>Ringing{dots}</Text>
 
-        {/* Temporary Skip Button - Discrete text only */}
+        {/* Temp Skip Button*/}
         <TouchableOpacity 
           style={{ paddingVertical: 12, marginBottom: 20 }}
           onPress={onCallConnected}
         >
-          <Text style={[convoStyles.callingStatusText, { fontSize: 14, opacity: 0.6 }]}>
-            (skip to conversation)
+          <Text style={[convoStyles.callingStatusText, { fontSize: 14, opacity: 0.6,textDecorationLine: 'underline' }]}>
+            skip to conversation
           </Text>
         </TouchableOpacity>
 

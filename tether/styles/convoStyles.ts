@@ -229,11 +229,12 @@ callingRing: {
   height: 150,
   borderRadius: 75,
   borderWidth: 3,
-  borderColor: palette.teal,
+  borderColor: palette.slate,
 },
 
 callingNameText: {
   fontSize: 32,
+  fontFamily: chosenFont,
   fontWeight: '700',
   color: palette.slate,
   textAlign: 'center',
@@ -243,11 +244,14 @@ callingNameText: {
 callingStatusText: {
   fontSize: 18,
   color: palette.mutedBrown,
+  
+  fontStyle: "italic",
+  fontFamily: chosenFont,
   textAlign: 'center',
   marginBottom: 40,
 },
 endCallButton: {
-  backgroundColor: palette.coral,
+  backgroundColor: palette.slate,
   paddingVertical: 16,
   paddingHorizontal: 32,
   borderRadius: 30,
@@ -262,6 +266,7 @@ endCallButton: {
   marginTop: 20,
 },
 endCallButtonText: {
+  fontFamily: chosenFont,
   color: palette.cream,
   fontSize: 18,
   fontWeight: '700',
@@ -290,6 +295,7 @@ confirmModalContent: {
 confirmModalTitle: {
   fontSize: 24,
   fontWeight: '700',
+  fontFamily: chosenFont,
   color: palette.slate,
   textAlign: 'center',
   marginBottom: 12,
@@ -298,6 +304,7 @@ confirmModalTitle: {
 confirmModalText: {
   fontSize: 16,
   color: palette.darkBrown,
+  fontFamily: chosenFont,
   textAlign: 'center',
   lineHeight: 24,
   marginBottom: 30,
@@ -322,6 +329,7 @@ confirmModalButtonCancel: {
 confirmModalButtonCancelText: {
   color: palette.slate,
   fontSize: 16,
+  fontFamily: chosenFont,
   fontWeight: '700',
 },
 
@@ -330,7 +338,7 @@ confirmModalButtonConfirm: {
   paddingVertical: 14,
   paddingHorizontal: 20,
   borderRadius: 12,
-  backgroundColor: palette.teal,
+  backgroundColor: palette.slate,
   flexDirection: 'row',
   alignItems: 'center',
   justifyContent: 'center',
@@ -345,8 +353,11 @@ confirmModalButtonConfirm: {
 confirmModalButtonConfirmText: {
   color: palette.cream,
   fontSize: 16,
+  fontFamily: chosenFont,
   fontWeight: '700',
 },
+
+
 });
 
 export default convoStyles;
