@@ -14,11 +14,12 @@ const spiral = require('../../assets/portal/spiral_res.png');
 
 interface AcceptInviteProps {
   contact: { id: string; name: string };
+  isNewPortalRequest?: boolean;
   onBack: () => void;
   onNavigateToExpectations: () => void;
 }
 
-export const AcceptInvite = ({ contact, onBack, onNavigateToExpectations }: AcceptInviteProps) => {
+export const AcceptInvite = ({ contact, isNewPortalRequest = false, onBack, onNavigateToExpectations }: AcceptInviteProps) => {
   return (
     <ImageBackground 
       source={require("../../assets/backgrounds/light_ombre.png")}
@@ -32,16 +33,21 @@ export const AcceptInvite = ({ contact, onBack, onNavigateToExpectations }: Acce
         
         <View style={[portalStyles.content, { paddingTop: 80, justifyContent: 'center', flex: 1, alignItems: 'center' }]}>
           <Text style={[portalStyles.title, { textAlign: 'center' }]}>
-            {contact.name} accepted invite!{"\n"}Continue to setting expectations{"\n"}
+            {isNewPortalRequest
+              ? `Awaiting ${contact.name}'s acceptance of invitation`
+              : `${contact.name} accepted invite! Continue to setting expectations`
+            }
           </Text>
-          <TouchableOpacity
-            style={[portalStyles.continueButton, { marginTop: 8, alignSelf: 'center', position: 'relative', bottom: 'auto', right: 'auto', width: 'auto', minWidth: 200 }]}
-            onPress={onNavigateToExpectations}
-          >
-            <Text style={[portalStyles.continueButtonText,]}>
-              Continue
-            </Text>
-          </TouchableOpacity>
+          {!isNewPortalRequest && (
+            <TouchableOpacity
+              style={[portalStyles.continueButton, { marginTop: 8, alignSelf: 'center', position: 'relative', bottom: 'auto', right: 'auto', width: 'auto', minWidth: 200 }]}
+              onPress={onNavigateToExpectations}
+            >
+              <Text style={[portalStyles.continueButtonText,]}>
+                Continue
+              </Text>
+            </TouchableOpacity>
+          )}
         </View>
         
         <View style={{ alignItems: 'center', marginBottom: 40 }}>
