@@ -94,6 +94,7 @@ function AppContent() {
   const handleNavigateToExpectations = () => {
     setShowExpectationsIntro(true);
     setShowPortal(false);
+    setShowAcceptInvite(false);
   };
 
   const handleNavigateToAIPage = () => {
@@ -395,8 +396,12 @@ function AppContent() {
         {activeTab === 'friends' && showReflect && (
           <Reflect onBack={handleBackToPortal} />
         )}
-        {activeTab === 'friends' && showAcceptInvite && (
-          <AcceptInvite onBack={handleBackToPortal} />
+        {activeTab === 'friends' && showAcceptInvite && selectedContact && (
+          <AcceptInvite 
+            contact={selectedContact}
+            onBack={handleBackToPortal}
+            onNavigateToExpectations={handleNavigateToExpectations}
+          />
         )}
         {activeTab === 'friends' && showLockedStep && (
           <LockedStep onBack={handleBackToPortal} />
