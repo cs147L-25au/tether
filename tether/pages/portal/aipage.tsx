@@ -75,12 +75,15 @@ export const AIPage = ({ onBack, onContinue, onBackToPortal }: AIPageProps) => {
           keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 20}
         >
           <View style={portalStyles.container}>
-            <TouchableOpacity onPress={onBack} style={[portalStyles.backButton, { top: 10 }]}>
-              <ChevronLeft size={40} color={palette.slate} />
-            </TouchableOpacity>
+            <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 20, paddingHorizontal: 16, marginBottom: 10 }}>
+              <TouchableOpacity onPress={onBack} style={{ marginRight: 24 }}>
+                <ChevronLeft size={40} color={palette.slate} />
+              </TouchableOpacity>
+              <Text style={[portalStyles.title, { fontSize: 36 }]}>Set Expectations</Text>
+            </View>
 
             <ScrollView 
-              style={[portalStyles.scrollView, { marginTop: 60 }]}
+              style={[portalStyles.scrollView, { marginTop: 0 }]}
               contentContainerStyle={[portalStyles.scrollContent, { paddingTop: 20, paddingBottom: 180, paddingHorizontal: 16 }]}
               showsVerticalScrollIndicator={false}
             >
