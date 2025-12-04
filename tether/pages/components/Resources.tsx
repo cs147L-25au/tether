@@ -8,7 +8,7 @@ import {
   StyleSheet,
   Animated,
 } from 'react-native';
-import { X } from 'lucide-react-native';
+import { X, Lightbulb, MessageCircleHeart, Brain, ShieldBan, Target, Wind, MessageSquare, Goal, Snail, CircleQuestionMark  } from 'lucide-react-native';
 import { palette } from '../../styles/palette';
 import resourceStyles from '../../styles/resourceStyles';
 
@@ -29,6 +29,42 @@ interface ResourceModalProps {
   userExpectations?: string[];
   contactExpectations?: string[];
 }
+
+interface ResourceIcon {
+  icon: React.ComponentType<any>;
+  color: string;
+}
+
+const RESOURCE_ICONS: Record<ResourceType, ResourceIcon> = {
+  'conversation-starters': {
+    icon: require('lucide-react-native').Lightbulb,
+    color: palette.teal,
+  },
+  'revisit-expectations': {
+    icon: require('lucide-react-native').MessageCircleHeart,
+    color: palette.lightBrown,
+  },
+  'empathy-prompts': {
+    icon: require('lucide-react-native').Brain,
+    color: palette.mutedBrown,
+  },
+  'boundary-setting': {
+    icon: require('lucide-react-native').ShieldBan,
+    color: palette.sage,
+  },
+  'goal-setting': {
+    icon: require('lucide-react-native').Goal,
+    color: palette.teal,
+  },
+  'de-escalation': {
+    icon: require('lucide-react-native').Snail,
+    color: palette.mutedBrown,
+  },
+  'reflection-questions': {
+    icon: require('lucide-react-native').CircleQuestionMark,
+    color: palette.lightBrown,
+  },
+};
 
 type ContentItem = {
   type: 'subheading' | 'text';
@@ -181,6 +217,7 @@ export const ResourceModal = ({
   contactExpectations = []
 }: ResourceModalProps) => {
   const resource = RESOURCE_CONTENT[resourceType];
+  const resourceIcon = RESOURCE_ICONS[resourceType];
   const fadeAnim = useRef(new Animated.Value(0)).current;
   const scaleAnim = useRef(new Animated.Value(0.9)).current;
 
@@ -206,6 +243,8 @@ export const ResourceModal = ({
   }, [visible]);
 
   if (!visible) return null;
+
+  const IconComponent = resourceIcon.icon;
 
   const renderExpectationsContent = () => (
     <View style={resourceStyles.expectationsContainer}>
@@ -276,7 +315,12 @@ export const ResourceModal = ({
           ]}
         >
           <View style={resourceStyles.modalHeader}>
-            <Text style={resourceStyles.modalTitle}>{resource?.title || 'Resource'}</Text>
+            <View style={resourceStyles.headerLeft}>
+              <View style={resourceStyles.headerIconContainer}>
+                <IconComponent size={28} color={palette.slate} />
+              </View>
+              <Text style={resourceStyles.modalTitle}>{resource?.title || 'Resource'}</Text>
+            </View>
             <TouchableOpacity onPress={onClose}>
               <X size={28} color={palette.darkBrown} />
             </TouchableOpacity>
@@ -297,47 +341,3 @@ export const ResourceModal = ({
     </Modal>
   );
 };
-
-const styles = StyleSheet.create({
-  expectationsContainer: {
-    paddingHorizontal: 20,
-    paddingVertical: 10,
-  },
-  expectationSection: {
-    marginBottom: 20,
-  },
-  expectationHeader: {
-    fontSize: 18,
-    fontWeight: '700',
-    color: palette.darkBrown,
-    marginBottom: 12,
-    fontFamily: 'Raleway-Bold',
-  },
-  expectationItem: {
-    flexDirection: 'row',
-    alignItems: 'flex-start',
-    marginBottom: 10,
-    paddingLeft: 5,
-  },
-  expectationBullet: {
-    width: 6,
-    height: 6,
-    borderRadius: 3,
-    backgroundColor: palette.teal,
-    marginTop: 7,
-    marginRight: 12,
-  },
-  expectationText: {
-    flex: 1,
-    fontSize: 16,
-    lineHeight: 24,
-    color: palette.darkBrown,
-    fontFamily: 'Raleway-Medium',
-  },
-  divider: {
-    height: 1,
-    backgroundColor: palette.lightBrown,
-    marginVertical: 15,
-    opacity: 0.3,
-  },
-});

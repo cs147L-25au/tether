@@ -156,6 +156,16 @@ resourcesContainer: {
     fontWeight: '700',
   },
   //expectations
+  headerLeft: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 12,
+    flex: 1,
+  },
+  headerIconContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
     expectationsContainer: {
     paddingHorizontal: 20,
     paddingVertical: 10,
