@@ -187,7 +187,7 @@ export const Calling = ({ contact, onBack, onCallConnected }: CallingProps) => {
               { transform: [{ scale: pulseAnim }] }
             ]}
           >
-            <Image source={require('../assets/frogs/frog.png')} />
+            <Image source={require('../assets/frogs/cute_frogx1.png')} />
           </Animated.View>
         </View>
 

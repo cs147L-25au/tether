@@ -30,7 +30,7 @@ interface ChatMessage {
 
 export const Reflect = ({ onBack, onContinue, onBackToPortal }: ReflectProps) => {
   // Use onBack as fallback for onContinue and onBackToPortal if not provided
-  const handleContinue = onContinue || onBack;
+  const handleContinue = onContinue || onBackToPortal || onBack;
   const handleBackToPortal = onBackToPortal || onBack;
   const [messages, setMessages] = useState<ChatMessage[]>([
     {

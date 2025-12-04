@@ -46,7 +46,7 @@ const convoStyles = StyleSheet.create({
   },
   avatarSection: {
     alignItems: 'center',
-    marginVertical: 5,
+    marginVertical: -7,
   },
   avatar: {
     width: 100,

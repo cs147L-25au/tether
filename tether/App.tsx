@@ -363,6 +363,7 @@ function AppContent() {
             contact={selectedContact}
             onBack={handleEndCall}
             onPause={handlePauseConversation}
+            onEndConversation={handleBackToPortal}
           />
         )}
 

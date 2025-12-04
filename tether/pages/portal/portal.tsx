@@ -354,10 +354,20 @@ export const Portal = ({
       />
       
       <TouchableOpacity 
-        style={[portalStyles.portalCallButton, {bottom: 165, left: 163}]}
-        onPress={onStartCall}
+        style={[
+          portalStyles.portalCallButton, 
+          {bottom: 165, left: 163},
+          (isNewPortalRequest || !hasCompletedExpectations) && { opacity: 1 }
+        ]}
+        onPress={() => {
+          if (isNewPortalRequest || !hasCompletedExpectations) {
+            onNavigateToLockedStep();
+          } else {
+            onStartCall?.();
+          }
+        }}
       >
-        <View style={[portalStyles.portalCallButtonInner, {}]}>
+        <View style={[portalStyles.portalCallButtonInner, {backgroundColor: (isNewPortalRequest || !hasCompletedExpectations) ? '#a2a2a2ff' : palette.slate}]}>
           <Phone size={34} color={palette.cream} />
         </View>
       </TouchableOpacity>
@@ -396,7 +406,7 @@ export const Portal = ({
       {/* Only show lower half elements when in lower half */}
       {isInLowerHalf && (
         <>
-      {/* Reflect white image - positioned for lower half in bottom right */}
+            {/* Reflect white image - positioned for lower half in bottom right */}
       <TouchableOpacity
         onPress={() => {
           if (isNewPortalRequest || !hasCompletedExpectations) {
@@ -497,8 +507,15 @@ export const Portal = ({
           shadowOpacity: 0.2,
           shadowRadius: 8,
           elevation: 4,
+          opacity: (isNewPortalRequest || !hasCompletedExpectations) ? 0.4 : 1,
         }}
-        onPress={() => setShowCompleteModal(true)}
+        onPress={() => {
+          if (isNewPortalRequest || !hasCompletedExpectations) {
+            onNavigateToLockedStep();
+          } else {
+            setShowCompleteModal(true);
+          }
+        }}
       >
         <Text style={{ ...portalStyles.continueButtonText, color: palette.cream }}>Complete</Text>
       </TouchableOpacity>
@@ -559,6 +576,7 @@ export const Portal = ({
                 marginTop: 8,
                 marginBottom: 16,
                 textAlign: 'center',
+                fontFamily: "../../assets/fonts/AbhayaLibre-Regular.ttf"
               }}
             >
               Conversation Complete!
@@ -570,6 +588,7 @@ export const Portal = ({
                 color: palette.slate,
                 textAlign: 'center',
                 opacity: 0.8,
+                fontFamily: "../../assets/fonts/AbhayaLibre-Regular.ttf",
               }}
             >
               Great work on your conversation

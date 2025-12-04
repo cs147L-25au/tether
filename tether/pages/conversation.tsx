@@ -9,7 +9,7 @@ import {
   Image
 } from 'react-native';
 import { palette } from '../styles/palette';
-import { ChevronLeft, Pause, Lightbulb, MessageCircleHeart } from 'lucide-react-native';
+import { ChevronLeft, Pause, Lightbulb, MessageCircleHeart, X } from 'lucide-react-native';
 import convoStyles from "../styles/convoStyles"
 import resourceStyles from '../styles/resourceStyles';
 import { ResourceModal, ResourceType } from './components/Resources';
@@ -20,9 +20,10 @@ interface ConversationProps {
   contact: { id: string; name: string };
   onBack: () => void;
   onPause: (contact: { id: string; name: string }) => void;
+  onEndConversation: () => void;
 }
 
-export const Conversation = ({ contact, onBack, onPause }: ConversationProps) => {
+export const Conversation = ({ contact, onBack, onPause, onEndConversation }: ConversationProps) => {
   const [elapsedTime, setElapsedTime] = useState(0);
   const [isSpeaking, setIsSpeaking] = useState(true);
   const [modalVisible, setModalVisible] = useState(false);
@@ -65,12 +66,12 @@ export const Conversation = ({ contact, onBack, onPause }: ConversationProps) =>
         <View style={convoStyles.avatarsContainer}>
           <View style={convoStyles.avatarSection}>
             <View style={convoStyles.avatar}>
-               <Image source = {require('../assets/frogs/frog.png')}/>
+               <Image source = {require('../assets/frogs/cute_frogx1.png')} style={{height: 100, width: 90}}/>
             </View>
             <Text style={convoStyles.nameText}>{contact.name}</Text>
             <View style={convoStyles.statusIndicator}>
               <View style={convoStyles.statusDot} />
-              <Text style={convoStyles.statusLabel}>Speaking</Text>
+              <Text style={[convoStyles.statusLabel, {fontSize: 17}]}>Speaking</Text>
             </View>
           </View>
 
@@ -78,7 +79,7 @@ export const Conversation = ({ contact, onBack, onPause }: ConversationProps) =>
 
           <View style={convoStyles.avatarSection}>
             <View style={[convoStyles.avatar, {width: 100, height: 100}]}>
-               <Image source = {require('../assets/frogs/frog.png')}/>
+               <Image source = {require('../assets/frogs/cute_frogx1.png')} style={{height: 100, width: 90}}/>
             </View>
             <Text style={convoStyles.nameText}>You</Text>
           </View>
@@ -111,6 +112,15 @@ export const Conversation = ({ contact, onBack, onPause }: ConversationProps) =>
           <Pause size={24} color={palette.cream} fill={palette.cream} />
           <Text style={convoStyles.pauseButtonText}>PAUSE & BREATHE</Text>
         </TouchableOpacity>
+
+        <TouchableOpacity 
+          style={[convoStyles.pauseButton, { backgroundColor: palette.teal, marginTop: 16 }]}
+          onPress={onEndConversation}
+        >
+          <X size={24} color={palette.cream} fill={palette.cream} />
+          <Text style={convoStyles.pauseButtonText}>END CONVERSATION</Text>
+        </TouchableOpacity>
+    
       </View>
       <ResourceModal
         visible={modalVisible}
