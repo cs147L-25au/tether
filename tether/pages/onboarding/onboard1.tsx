@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { View, Text, Image, StyleSheet, Dimensions, ImageBackground, Animated } from 'react-native';
 import { palette } from '../../styles/palette';
 
@@ -20,8 +20,14 @@ interface Onboard1Props {
 export default function Onboard1({ onContinue }: Onboard1Props) {
   const fadeAnim = useRef(new Animated.Value(1)).current;
   const slideAnim = useRef(new Animated.Value(0)).current;
+  const [isRotated, setIsRotated] = useState(false);
 
   useEffect(() => {
+    // Alternate between rotated and normal thought bubble
+    const interval = setInterval(() => {
+      setIsRotated(prev => !prev);
+    }, 400); // Switch every 400ms for a nice hand-drawn effect
+
     // Start animation after 3 seconds
     const timer = setTimeout(() => {
       // Fade out and slide up
@@ -42,7 +48,10 @@ export default function Onboard1({ onContinue }: Onboard1Props) {
       });
     }, 3000);
 
-    return () => clearTimeout(timer);
+    return () => {
+      clearTimeout(timer);
+      clearInterval(interval);
+    };
   }, [fadeAnim, slideAnim, onContinue]);
 
   return (
@@ -80,16 +89,18 @@ export default function Onboard1({ onContinue }: Onboard1Props) {
             style={styles.rightProfile}
           />
         </View>
-        {/* Squiggle */}
+        
         <Image 
           source={squiggle} 
           style={styles.squiggle}
         />
-        
-        {/* Thought bubble */}
+
         <Image 
           source={thought} 
-          style={styles.thoughtBubble}
+          style={[
+            styles.thoughtBubble,
+            isRotated && styles.thoughtBubbleRotated
+          ]}
         />
         
         {/* Bottom center text */}
@@ -98,7 +109,6 @@ export default function Onboard1({ onContinue }: Onboard1Props) {
     </ImageBackground>
   );
 }
-
 
 const styles = StyleSheet.create({
   background: {
@@ -130,7 +140,6 @@ const styles = StyleSheet.create({
     position: 'relative',
     overflow: 'visible',
   },
-
   leftProfile: {
     position: 'absolute',
     left: 6,
@@ -139,7 +148,6 @@ const styles = StyleSheet.create({
     height: SCREEN_HEIGHT * 0.45,
     resizeMode: 'contain',
   },
-  
   rightProfile: {
     position: 'absolute',
     right: 10,
@@ -163,6 +171,10 @@ const styles = StyleSheet.create({
     resizeMode: 'contain',
     left: (SCREEN_WIDTH - THOUGHT_WIDTH) / 2,
     top: (SCREEN_HEIGHT - THOUGHT_HEIGHT) / 3.5,
+    transform: [{ rotate: '0deg' }],
+  },
+  thoughtBubbleRotated: {
+    transform: [{ rotate: '10deg' }],
   },
   helpText: {
     position: 'absolute',

@@ -1088,6 +1088,15 @@ const globalStyles = StyleSheet.create({
     fontSize: 15,
     fontWeight: '700',
   },
+  frogContainer: {
+    width: '100%',
+    height: '100%',
+    position: 'relative',
+  },
+  frogBody: {
+    width: '100%',
+    height: '100%',
+  },
   portalCard: {
     backgroundColor: 'rgba(255, 255, 255, 0.85)',
     borderRadius: 20,

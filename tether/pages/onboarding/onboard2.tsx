@@ -1,10 +1,7 @@
-import React, { useEffect, useRef } from 'react';
-import { View, Text, Pressable, Image, StyleSheet, Dimensions, ImageBackground, Animated } from 'react-native';
-import { LinearGradient } from 'expo-linear-gradient';
+import React, { useEffect, useRef, useState } from 'react';
+import { View, Text, Image, StyleSheet, Dimensions, ImageBackground, Animated } from 'react-native';
 import { palette } from '../../styles/palette';
 
-const frogLeft = require('../../assets/onboard2/frog left.png');
-const rightFrog = require('../../assets/onboard2/rightfrog.png');
 const squiggle = require('../../assets/onboard2/squiggle.png');
 const number1 = require('../../assets/onboard2/number1.png');
 const lock = require('../../assets/onboard2/lock.png');
@@ -19,6 +16,16 @@ interface Onboard2Props {
 export default function Onboard2({ onContinue }: Onboard2Props) {
   const fadeAnim = useRef(new Animated.Value(0)).current;
   const slideAnim = useRef(new Animated.Value(50)).current;
+  
+  // Frog animations
+  const leftFrogJump = useRef(new Animated.Value(0)).current;
+  const rightFrogJump = useRef(new Animated.Value(0)).current;
+  const leftFrogX = useRef(new Animated.Value(0)).current;
+  const rightFrogX = useRef(new Animated.Value(0)).current;
+  
+  // Blink states
+  const [leftFrogBlinking, setLeftFrogBlinking] = useState(false);
+  const [rightFrogBlinking, setRightFrogBlinking] = useState(false);
 
   useEffect(() => {
     // Fade in and slide up animation on mount
@@ -34,9 +41,68 @@ export default function Onboard2({ onContinue }: Onboard2Props) {
         useNativeDriver: true,
       }),
     ]).start();
-  }, [fadeAnim, slideAnim]);
 
-  useEffect(() => {
+    // Left frog jumping animation
+    Animated.loop(
+      Animated.sequence([
+        Animated.timing(leftFrogJump, {
+          toValue: -20,
+          duration: 600,
+          useNativeDriver: true,
+        }),
+        Animated.timing(leftFrogJump, {
+          toValue: 0,
+          duration: 600,
+          useNativeDriver: true,
+        }),
+      ])
+    ).start();
+
+    // Right frog jumping animation (offset)
+    setTimeout(() => {
+      Animated.loop(
+        Animated.sequence([
+          Animated.timing(rightFrogJump, {
+            toValue: -20,
+            duration: 600,
+            useNativeDriver: true,
+          }),
+          Animated.timing(rightFrogJump, {
+            toValue: 0,
+            duration: 600,
+            useNativeDriver: true,
+          }),
+        ])
+      ).start();
+    }, 300); // Start 300ms after left frog
+
+    // Frogs moving towards each other
+    Animated.timing(leftFrogX, {
+      toValue: SCREEN_WIDTH * 0.15,
+      duration: 2000,
+      useNativeDriver: true,
+    }).start();
+
+    Animated.timing(rightFrogX, {
+      toValue: -SCREEN_WIDTH * 0.15,
+      duration: 2000,
+      useNativeDriver: true,
+    }).start();
+
+    // Blinking animation
+    const blinkInterval = setInterval(() => {
+      // Random chance for each frog to blink
+      if (Math.random() > 0.6) {
+        setLeftFrogBlinking(true);
+        setTimeout(() => setLeftFrogBlinking(false), 150);
+      }
+      
+      if (Math.random() > 0.6) {
+        setRightFrogBlinking(true);
+        setTimeout(() => setRightFrogBlinking(false), 150);
+      }
+    }, 2000);
+
     // Start transition animation after 3 seconds
     const timer = setTimeout(() => {
       // Fade out and slide up
@@ -57,8 +123,60 @@ export default function Onboard2({ onContinue }: Onboard2Props) {
       });
     }, 3000);
 
-    return () => clearTimeout(timer);
-  }, [fadeAnim, slideAnim, onContinue]);
+    return () => {
+      clearTimeout(timer);
+      clearInterval(blinkInterval);
+    };
+  }, []);
+
+  const renderFrogL = (color: string, isBlinking: boolean) => (
+    <View style={[styles.frogContainer, {position:"absolute", bottom:-30}]}>
+            <Image 
+              source={require('../../assets/frogs/cute_frog_body.png')}
+              style={[styles.frogBody, {height: 50}, {transform: [{ translateY: 10}, {translateX: -5}, { scaleX: -1 }]}]}
+              resizeMode="contain"
+              tintColor={color}
+            />
+            <Image 
+              source={isBlinking 
+                ? require('../../assets/frogs/cute_frog_blinking.png')
+                : require('../../assets/frogs/cute_frog_outline.png')
+              }
+              style={[styles.frogBody, { position: 'absolute', height: 60, }, {transform: [{ translateY: 6}, {translateX: -5}, { scaleX: -1 }]}]}
+              resizeMode="contain"
+            />
+            <Image 
+              source={require('../../assets/frogs/cute_frog_cheeks.png')}
+              style={[styles.frogBody, { position: 'absolute', height: 57,}, {transform: [{ translateY: 4}, {translateX: -8}, { scaleX: -1 }]}]}
+              resizeMode="contain"
+            />
+      </View>
+  );
+
+    const renderFrogR = (color: string, isBlinking: boolean) => (
+    <View style={[styles.frogContainer, {position:"absolute", bottom:-30}]}>
+            <Image 
+              source={require('../../assets/frogs/cute_frog_body.png')}
+              style={[styles.frogBody, {height: 50}, {transform: [{ translateY: 10}, {translateX: -5}]}]}
+              resizeMode="contain"
+              tintColor={color}
+            />
+            <Image 
+              source={isBlinking 
+                ? require('../../assets/frogs/cute_frog_blinking.png')
+                : require('../../assets/frogs/cute_frog_outline.png')
+              }
+              style={[styles.frogBody, { position: 'absolute', height: 60, }, {transform: [{ translateY: 6}, {translateX: -5}]}]}
+              resizeMode="contain"
+            />
+            <Image 
+              source={require('../../assets/frogs/cute_frog_cheeks.png')}
+              style={[styles.frogBody, { position: 'absolute', height: 57,}, {transform: [{ translateY: 4}, {translateX: -3}]}]}
+              resizeMode="contain"
+            />
+      </View>
+  );
+
 
   return (
     <ImageBackground 
@@ -81,10 +199,20 @@ export default function Onboard2({ onContinue }: Onboard2Props) {
           <Text style={styles.topTextLine}>a friend...</Text>
         </View>
 
-        <Image 
-          source={frogLeft} 
-          style={styles.leftCharacter}
-        />
+        {/* Animated left frog */}
+        <Animated.View
+          style={[
+            styles.leftCharacter,
+            {
+              transform: [
+                { translateY: leftFrogJump },
+                { translateX: leftFrogX }
+              ]
+            }
+          ]}
+        >
+          {renderFrogL(palette.beige, leftFrogBlinking)}
+        </Animated.View>
 
         <Image 
           source={squiggle} 
@@ -118,13 +246,21 @@ export default function Onboard2({ onContinue }: Onboard2Props) {
           </View>
         </View>
 
-        
-        <Image 
-          source={rightFrog} 
-          style={styles.rightCharacter}
-        />
+        {/* Animated right frog */}
+        <Animated.View
+          style={[
+            styles.rightCharacter,
+            {
+              transform: [
+                { translateY: rightFrogJump },
+                { translateX: rightFrogX }
+              ]
+            }
+          ]}
+        >
+          {renderFrogR(palette.sage, rightFrogBlinking)}
+        </Animated.View>
 
-        
         <View style={styles.bottomTextContainer}>
           <Text style={styles.bottomTextLine}>...often the</Text>
           <Text style={styles.bottomTextLine}>hardest part.</Text>
@@ -148,16 +284,6 @@ const styles = StyleSheet.create({
     position: 'relative',
     overflow: 'visible',
   },
-  title: {
-    position: 'absolute',
-    top: SCREEN_HEIGHT * 0.05,
-    left: SCREEN_WIDTH * 0.05,
-    fontSize: 24,
-    fontFamily: '../../assets/fonts/AbhayaLibre-Regular.ttf',
-    color: palette.darkGray,
-    fontWeight: '600',
-    zIndex: 5,
-  },
   topTextContainer: {
     position: 'absolute',
     top: SCREEN_HEIGHT * 0.08,
@@ -177,8 +303,16 @@ const styles = StyleSheet.create({
     left: SCREEN_WIDTH * 0.08,
     width: SCREEN_WIDTH * 0.15,
     height: SCREEN_WIDTH * 0.15,
-    resizeMode: 'contain',
     zIndex: 3,
+  },
+  frogContainer: {
+    width: '100%',
+    height: '100%',
+    position: 'relative',
+  },
+  frogBody: {
+    width: '100%',
+    height: '100%',
   },
   wavyPath: {
     position: 'absolute',
@@ -211,11 +345,10 @@ const styles = StyleSheet.create({
   },
   rightCharacter: {
     position: 'absolute',
-    bottom: SCREEN_HEIGHT * 0.35,
+    bottom: SCREEN_HEIGHT * 0.45,
     right: SCREEN_WIDTH * 0.05,
     width: SCREEN_WIDTH * 0.15,
     height: SCREEN_WIDTH * 0.15,
-    resizeMode: 'contain',
     zIndex: 3,
   },
   bottomTextContainer: {
@@ -233,4 +366,3 @@ const styles = StyleSheet.create({
     fontWeight: '300',
   },
 });
-
