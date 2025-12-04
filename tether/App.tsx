@@ -31,6 +31,8 @@ import { Calling } from './pages/calling';
 import { ConfirmCallModal } from './pages/components/ConfirmCall';
 import styles from './styles/styles';
 import AuthGate from './pages/components/AuthGate';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { palette } from './styles/palette';
 
 function AppContent() {
   const [activeTab, setActiveTab] = useState< 'friends' | 'home' | 'profile'>('home');
@@ -49,15 +51,33 @@ function AppContent() {
   const [showAcceptInvite, setShowAcceptInvite] = useState(false);
   const [showAIAssurance, setShowAIAssurance] = useState(false);
   const [showLockedStep, setShowLockedStep] = useState(false);
-  const [selectedContact, setSelectedContact] = useState<{ id: string; name: string } | null>(null);
+  const [selectedContact, setSelectedContact] = useState<{ id: string; name: string, color: any } | null>(null);
   const [showConversation, setShowConversation] = useState(false);
   const [showPause, setShowPause] = useState(false);
   const [isNewPortalRequest, setIsNewPortalRequest] = useState(false);
   const [showCalling, setShowCalling] = useState(false);
   const [showConfirmCallModal, setShowConfirmCallModal] = useState(false);
   const [expectationsCompleted, setExpectationsCompleted] = useState(false);
+  const [userProfile, setUserProfile] = useState<{ iconColor: string } | null>(null);
 
-  const handleContactSelect = (contact: { id: string; name: string }, isInvite?: boolean) => {
+
+  useEffect(() => {
+  const loadUserProfile = async () => {
+    try {
+      const storedProfile = await AsyncStorage.getItem('@tether_profile');
+      if (storedProfile) {
+        const profile = JSON.parse(storedProfile);
+        setUserProfile(profile);
+      }
+    } catch (error) {
+      console.error('Error loading user profile:', error);
+    }
+  };
+  
+  loadUserProfile();
+}, []);
+
+  const handleContactSelect = (contact: { id: string; name: string, color: any }, isInvite?: boolean) => {
     setSelectedContact(contact);
     setIsNewPortalRequest(false);
     setExpectationsCompleted(false);
@@ -301,6 +321,7 @@ function AppContent() {
           <>
             <Portal 
               contact={selectedContact}
+              userColor={userProfile?.iconColor || palette.sage}
               isNewPortalRequest={isNewPortalRequest}
               expectationsCompleted={expectationsCompleted}
               onBack={handleBackToContacts}

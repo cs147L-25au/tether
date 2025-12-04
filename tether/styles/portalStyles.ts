@@ -443,6 +443,25 @@ portalCallButtonInner: {
   shadowRadius: 8,
   elevation: 6,
 },
+frogPair: {
+  flexDirection: 'row',
+  alignItems: 'center',
+  justifyContent: 'space-between',
+  width: 150,
+  height: 65,
+  gap: 20,
+},
+singleFrog: {
+  width: 55,
+  height: 55,
+  justifyContent: 'center',
+  alignItems: 'center',
+  position: 'relative',
+},
+frogBody: {
+  width: '100%',
+  height: '100%',
+},
 });
 
 export default portalStyles;

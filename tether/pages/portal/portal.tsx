@@ -40,6 +40,7 @@ const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get('window');
 
 interface PortalProps {
   contact: { id: string; name: string, color: any};
+  userColor?: any;
   isNewPortalRequest?: boolean;
   expectationsCompleted?: boolean;
   onBack: () => void;
@@ -51,7 +52,7 @@ interface PortalProps {
   onStartCall?: () => void;
 }
 
-export const Portal = ({ contact, isNewPortalRequest = false, expectationsCompleted = false, onBack, onNavigateToExpectations, onNavigateToReflect, onNavigateToAcceptInvite, onNavigateToLockedStep, onNavigateToAIAssurance, onStartCall }: PortalProps) => {
+export const Portal = ({ contact, userColor, isNewPortalRequest = false, expectationsCompleted = false, onBack, onNavigateToExpectations, onNavigateToReflect, onNavigateToAcceptInvite, onNavigateToLockedStep, onNavigateToAIAssurance, onStartCall }: PortalProps) => {
   const [hasCompletedExpectations, setHasCompletedExpectations] = useState(expectationsCompleted);
 
   useEffect(() => {
@@ -106,10 +107,46 @@ export const Portal = ({ contact, isNewPortalRequest = false, expectationsComple
       </SafeAreaView>
       {/* Two frogs in upper right */}
       <View style={portalStyles.frogsContainer}>
-        <Image 
-          source={require("../../assets/frogs/cute_frogsx2.png")} 
-          style={portalStyles.frogsImage} 
-        />
+        <View style={portalStyles.frogPair}>
+          {/* User's frog (left) */}
+          <View style={portalStyles.singleFrog}>
+            <Image 
+              source={require('../../assets/frogs/cute_frog_body.png')}
+              style={[portalStyles.frogBody]}
+              resizeMode="contain"
+              tintColor={userColor} 
+            />
+            <Image 
+              source={require('../../assets/frogs/cute_frog_outline.png')}
+              style={[portalStyles.frogBody, { position: 'absolute' }]}
+              resizeMode="contain"
+            />
+            <Image 
+              source={require('../../assets/frogs/cute_frog_cheeks.png')}
+              style={[portalStyles.frogBody, { position: 'absolute' }]}
+            />
+          </View>
+
+          {/* Contact's frog (right) */}
+          <View style={portalStyles.singleFrog}>
+            <Image 
+              source={require('../../assets/frogs/cute_frog_body.png')}
+              style={[portalStyles.frogBody]}
+              resizeMode="contain"
+              tintColor={contact.color || palette.sage}
+            />
+            <Image 
+              source={require('../../assets/frogs/cute_frog_outline.png')}
+              style={[portalStyles.frogBody, { position: 'absolute' }]}
+              resizeMode="contain"
+            />
+            <Image 
+              source={require('../../assets/frogs/cute_frog_cheeks.png')}
+              style={[portalStyles.frogBody, { position: 'absolute' }]}
+            />
+          </View>
+        </View>
+
         <View style={portalStyles.labelsContainer}>
           <Text style={portalStyles.userGraphicLabel}>You</Text>
           <Text style={portalStyles.userGraphicLabel}>{contact.name}</Text>
