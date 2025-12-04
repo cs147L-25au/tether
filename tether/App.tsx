@@ -438,6 +438,7 @@ function AppContent() {
         {activeTab === 'friends' && showAcceptInvite && selectedContact && (
           <AcceptInvite 
             contact={selectedContact}
+            isNewPortalRequest={isNewPortalRequest}
             onBack={handleBackToPortal}
             onNavigateToExpectations={handleNavigateToExpectations}
           />

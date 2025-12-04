@@ -202,7 +202,7 @@ export const Portal = ({ contact, userColor, isNewPortalRequest = false, expecta
       <View style={portalStyles.reflectContainer}> 
         <TouchableOpacity 
           onPress={() => {
-            if (!hasCompletedExpectations) {
+            if (isNewPortalRequest || !hasCompletedExpectations) {
               onNavigateToLockedStep();
             } else {
               onNavigateToAIAssurance();
@@ -211,7 +211,7 @@ export const Portal = ({ contact, userColor, isNewPortalRequest = false, expecta
           style={portalStyles.reflectTouchable}
         > 
           <Image 
-            source={hasCompletedExpectations ? three : lock} 
+            source={(isNewPortalRequest || !hasCompletedExpectations) ? lock : three} 
             style={portalStyles.lock} 
           />
         </TouchableOpacity>
