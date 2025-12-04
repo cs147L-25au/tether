@@ -232,7 +232,7 @@ export const Contacts = ({ onNext, onBack, onSearch }: ContactsProps) => {
                     {renderFrog(friend, index, blinkStates[index])}
                     <View style={{ flex: 1 }}>
                       <Text style={[styles.text, { fontWeight: '600' }]}>{friend.name}</Text>
-                      <Text style={[styles.text, { fontSize: 12, opacity: 0.6, marginTop: 2 }]}>
+                      <Text style={[styles.text, { fontSize: 15, opacity: 0.6, marginTop: 2, fontStyle: "italic" }]}>
                         Close friend
                       </Text>
                     </View>
@@ -301,7 +301,7 @@ export const Contacts = ({ onNext, onBack, onSearch }: ContactsProps) => {
                     {renderFrog(invite, contacts.length + index, blinkStates[index])}
                     <View style={{ flex: 1 }}>
                       <Text style={[styles.text, { fontWeight: '600' }]}>{invite.name}</Text>
-                      <Text style={[styles.text, { fontSize: 12, opacity: 0.6, marginTop: 2 }]}>
+                      <Text style={[styles.text, { fontSize: 15, opacity: 0.6, marginTop: 2, fontStyle: "italic" }]}>
                         Not on Tether yet
                       </Text>
                     </View>

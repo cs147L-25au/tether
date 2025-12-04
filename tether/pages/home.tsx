@@ -195,7 +195,7 @@ export const Home = ({ onBack, onNext, onSearch }: HomeProps) => {
         <View style={[styles.screen, { overflow: 'visible' }]}>
           <View style={[styles.heading, {flexDirection: "column"}]}>
             <Text style={styles.tetherTitle}>Tether</Text>
-            <Text style={styles.subtitle}>Safe Space for Difficult Conversations </Text>
+            <Text style={styles.subtitle}>A Safe Space for Difficult Conversations </Text>
           </View>
           
           <View style={[styles.search, {
