@@ -4,7 +4,7 @@ import { palette } from '../styles/palette';
 
 // Hardcoded contacts for testing/development
 // Using valid UUID format so they work with database operations
-const HARDCODED_CONTACTS = [
+export const HARDCODED_CONTACTS = [
   {
     id: '00000000-0000-0000-0000-000000000001',
     name: 'Alex',
